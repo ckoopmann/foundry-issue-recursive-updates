@@ -4,7 +4,7 @@ name: test
 
 jobs:
   check:
-    name: Forge test
+    name: Demonstrate how forge update breaks the package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,9 +16,14 @@ jobs:
         with:
           version: nightly
 
-      - name: Run tests
+      - name: Tests pass before update
         run: forge test -vvv
 
-      - name: Run snapshot
-        run: forge snapshot >> $GITHUB_STEP_SUMMARY
+      - name: Update depencency
+        run: forge update lib/outdated-foundry-package
+
+      - name: Tests / Compilation fail after update
+        run: forge test -vvv
+
+
 
